@@ -1,49 +1,50 @@
-#import modules
-import os
 import csv
-import pandas as pd
+import os
 
 #path for csv file
 poll_csv = os.path.join("Resources", "election_data.csv")
 
-unique = []
-count = []
-percent_cand = []
+#initialize our total vote count
+votes = 0 
+#list of each candidate
+Cand_Option = []
+#as dict because we want to link candidate name with their votes
+Cand_Votes = {}
 
-poll_file_df = pd.read_csv(poll_csv)
-poll_file_df.head()
 
-#finds who got votes
-unique = poll_file_df["Candidate"].unique()
+with open(poll_csv) as pollfile:
+    reader = csv.DictReader(pollfile)
 
-#counts how many votes each candidate got
-count = poll_file_df["Candidate"].value_counts()
+    for row in reader:
+        
+        #counts TOTAL votes
+        votes += 1
 
-#calculates the percent of votes each candidate got based off the total
-percent_cand = (count/(len(poll_file_df)))*100
+        if row["Candidate"] not in Cand_Option: 
+            
+            #adds our candidate into our dictionary of candidates
+            Cand_Option.append(row["Candidate"])
 
-print(unique)
-print("-------------------------")
-print(count)
-print("-------------------------")
-print(percent_cand)
+            #counts the first vote for our candidate
+            Cand_Votes[row["Candidate"]] = 1
+    
+        else:
 
-print("-------------------------")
+            #counts up the votes for a specific candidate 
+            Cand_Votes[row["Candidate"]] += 1
+
+#using the max function, find the candidate with the most votes from our dict
+winner = max(Cand_Votes, key=Cand_Votes.get)
+
 print("-------------------------")
 print("Election Results")
 print("-------------------------")
-print("Total Votes: " + str(len(poll_file_df)))
+print("Total Votes: " + str(votes))
 print("-------------------------")
-for i in range(len(unique)):
-   print(print(unique[i] + ": " + str(round(percent_cand[i],3)) + "%  " + "(" + str(count[i]) + ")"))
+for candidate in Cand_Votes:
+   print(candidate + ": " + str(round((Cand_Votes[candidate]/votes)*100,3)) + "%  " + "(" + str(Cand_Votes[candidate]) + ")")
 print("-------------------------")
-
-
-
-
-#print("\n" + str(range(len(unique))))
-    
-
+print("Winner: " + winner)
 
 
 
