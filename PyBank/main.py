@@ -41,10 +41,11 @@ with open(budget_csv) as csvfile:
         #puts our revenue changes in a list 
         list_rev_change = list_rev_change + [rev_change]
 
+        #finds the greatest increase in revenue
         if rev_change > bigInc[1]:
             bigInc[1]= rev_change
             bigInc[0] = row[0]
-        
+        #finds the greatest decrease in revenue
         if rev_change < bigDec[1]:
             bigDec[1]= rev_change
             bigDec[0] = row[0]
@@ -54,7 +55,7 @@ with open(budget_csv) as csvfile:
 #this gives us the average
 avg_rev_change = (sum(list_rev_change) - list_rev_change[0])/(len(list_rev_change)-1)
 
-        
+#prints results     
 print("Financial Analysis")
 print("----------------------------")
 print("Total Months: " + str(months))
@@ -63,7 +64,7 @@ print("Average Revenue change: $" + str(round(avg_rev_change,2)))
 print("Greatest Increase in Profits: " + str(bigInc[0]) + " ($" + str(bigInc[1]) + ")")
 print("Greatest Decrease in Profits: " + str(bigDec[0]) + " ($" + str(bigDec[1]) + ")")
 
-
+#writes results into txt file
 with open(results_text, "w") as txt_file:
     txt_file.write("Total Months: " + str(months))
     txt_file.write("\n")

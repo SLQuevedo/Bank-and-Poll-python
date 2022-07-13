@@ -37,19 +37,23 @@ with open(poll_csv) as pollfile:
 #using the max function, find the candidate with the most votes from our dict
 winner = max(Cand_Votes, key=Cand_Votes.get)
 
+#prints results
 print("-------------------------")
 print("Election Results")
 print("-------------------------")
 print("Total Votes: " + str(votes))
 print("-------------------------")
+#prints results for each candidate
 for candidate in Cand_Votes:
    print(candidate + ": " + str(round((Cand_Votes[candidate]/votes)*100,3)) + "%  " + "(" + str(Cand_Votes[candidate]) + ")")
 print("-------------------------")
 print("Winner: " + winner)
 
+#writes txt file
 with open(results_text, "w") as txt_file:
     txt_file.write("Total Votes: " + str(votes))
     txt_file.write("\n")
+    #writes results for each candidate
     for candidate in Cand_Votes:
         txt_file.write(candidate + ": " + str(round((Cand_Votes[candidate]/votes)*100,3)) + "%  " + "(" + str(Cand_Votes[candidate]) + ") \n")
     txt_file.write("\n")
