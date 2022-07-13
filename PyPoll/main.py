@@ -3,6 +3,7 @@ import os
 
 #path for csv file
 poll_csv = os.path.join("Resources", "election_data.csv")
+results_text = os.path.join("analysis", "pypoll_Analysis.txt")
 
 #initialize our total vote count
 votes = 0 
@@ -45,6 +46,14 @@ for candidate in Cand_Votes:
    print(candidate + ": " + str(round((Cand_Votes[candidate]/votes)*100,3)) + "%  " + "(" + str(Cand_Votes[candidate]) + ")")
 print("-------------------------")
 print("Winner: " + winner)
+
+with open(results_text, "w") as txt_file:
+    txt_file.write("Total Votes: " + str(votes))
+    txt_file.write("\n")
+    for candidate in Cand_Votes:
+        txt_file.write(candidate + ": " + str(round((Cand_Votes[candidate]/votes)*100,3)) + "%  " + "(" + str(Cand_Votes[candidate]) + ") \n")
+    txt_file.write("\n")
+    txt_file.write("Winner: " + winner)
 
 
 
